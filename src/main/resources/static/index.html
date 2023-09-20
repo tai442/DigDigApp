@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ゲームデータ管理</title>
+</head>
+<body>
+<h1>ゲームデータ管理</h1>
+
+<!-- ゲーム時間を表示するボタン -->
+<button onclick="getGameTime()">ゲーム時間</button>
+<pre id="gameTimeResult"></pre>
+
+<!-- 鉱石の得点を表示するボタン -->
+<button onclick="getOreScore()">鉱石の得点</button>
+<pre id="oreScoreResult"></pre>
+
+<!-- ゲーム結果を表示するボタン -->
+<button onclick="getPlayerScores()">ゲーム結果</button>
+<pre id="playerScoresResult"></pre>
+
+<!-- ゲーム時間を更新するフォーム -->
+<h2>ゲーム時間の更新</h2>
+<form id="updateGameTimeForm">
+  <label for="newGameTime">新しいゲーム時間:</label>
+  <input type="text" id="newGameTime" name="newGameTime"><br><br>
+
+  <button onclick="updateGameTime()">ゲーム時間を更新</button>
+</form>
+
+<!-- 鉱石の得点を更新するフォーム -->
+<h2>鉱石の得点の更新</h2>
+<form id="updateOreScoreForm">
+  <label for="oreType">鉱石の種類:</label>
+  <input type="text" id="oreType" name="oreType"><br><br>
+
+  <label for="oreScore">得点:</label>
+  <input type="text" id="oreScore" name="oreScore"><br><br>
+
+  <button onclick="updateOreScore()">鉱石の得点を更新</button>
+</form>
+
+<script>
+     // ゲーム時間を取得する関数
+    function getGameTime() {
+        fetch('/configList')
+            .then(response => response.json())
+            .then(data => {
+                // JSONデータを整形して表示
+                document.getElementById('gameTimeResult').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => console.error('エラー:', error));
+    }
+
+    // ゲーム結果を取得する関数
+    function getPlayerScores() {
+        fetch('/playerScoreList', { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                // データを日付順にソート（最新のデータが先頭に）
+                data.sort((a, b) => new Date(b.registeredAt) - new Date(a.registeredAt));
+
+                // 最新の10個のデータを取得
+                const latestScores = data.slice(0, 10);
+
+                // JSONデータを整形して表示
+                document.getElementById('playerScoresResult').textContent = JSON.stringify(latestScores, null, 2);
+            })
+            .catch(error => console.error('エラー:', error));
+    }
+
+    // 鉱石の得点を取得する関数
+    function getOreScore() {
+        fetch('/spawnOreList')
+            .then(response => response.json())
+            .then(data => {
+                // JSONデータを整形して表示
+                document.getElementById('oreScoreResult').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => console.error('エラー:', error));
+    }
+
+    // ゲーム時間を更新する関数
+    function updateGameTime() {
+        const newGameTime = document.getElementById('newGameTime').value;
+
+    // リクエストデータを構築
+    const requestBody = {
+        id: "1", // 固定のID
+        gameTime: newGameTime // フォームから取得した新しいゲーム時間
+    };
+
+    // リクエストを送信
+    fetch('/updateGameTime', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+    })
+    .then(response => response.json())
+    .then(data => {
+    // ゲーム時間の更新の結果を表示する処理を追加
+    console.log('ゲーム時間が更新されました。', data);
+    })
+    .catch(error => console.error('エラー:', error));
+    }
+
+    // 鉱石の得点を更新する関数
+    function updateOreScore() {
+        const oreType = document.getElementById('oreType').value;
+        const oreScore = document.getElementById('oreScore').value;
+
+    // リクエストデータを構築
+    const requestBody = {
+        oreType: oreType, // フォームから取得した鉱石の種類
+        score: oreScore // フォームから取得した得点
+    };
+
+    // リクエストを送信
+    fetch('/updateOreScore', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // 鉱石の得点の更新の結果を表示する処理を追加
+        console.log('鉱石の得点が更新されました。', data);
+    })
+    .catch(error => console.error('エラー:', error));
+    }
+
+
+</script>
+</body>
+</html>

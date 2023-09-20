@@ -30,7 +30,7 @@ public class ConfigController {
     return service.searchSpawnOreList();
   }
 
-  @PostMapping(value = "updateGameTime")
+  @PostMapping(value = "/updateGameTime")
   public ResponseEntity<List<GameConfig>> updateGameConfig(@RequestBody GameConfig config) {
     List<GameConfig> updatedGameConfigList = service.updateGameConfig(config);
     return new ResponseEntity<>(updatedGameConfigList, HttpStatus.OK);
