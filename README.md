@@ -11,7 +11,9 @@ http://digdig-alb-1749034478.ap-northeast-1.elb.amazonaws.com にアクセスす
 5. 鉱石点数の更新。鉱石の種類と点数を入力することで、任意の点数に更新できます。  
    **（更新できるのは3で取得した6種類の鉱石のみです。）**
 ## 動作環境  
-awsのEC2上にデプロイされたこちらの[Minecraftサーバー]()で実行できます。
+awsのEC2上にデプロイされたMinecraftサーバーで実行できます。  
+サーバーを追加してサーバーアドレスに**54.64.250.181**を入力してください。  
+詳しくは、[説明動画](https://youtu.be/mFVMt-t8yx4)をご覧ください。
 - Minecraft 1.20.1
 - Spigot Server 1.20.1
 - Oracle OpenJDK 17.0.6
