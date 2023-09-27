@@ -31,7 +31,16 @@
 <h2>鉱石の得点の更新</h2>
 <form id="updateOreScoreForm">
   <label for="oreType">鉱石の種類:</label>
-  <input type="text" id="oreType" name="oreType"><br><br>
+  <select id="oreType" name="oreType">
+    <option value="COAL_ORE">石炭の鉱石</option>
+    <option value="IRON_ORE">鉄の鉱石</option>
+    <option value="COPPER_ORE">銅の鉱石</option>
+    <option value="GOLD_ORE">金の鉱石</option>
+    <option value="LAPIS_ORE">ラピスラズリの鉱石</option>
+    <option value="REDSTONE_ORE">レッドストーンの鉱石</option>
+    <option value="EMERALD_ORE">エメラルドの鉱石</option>
+    <option value="DIAMOND_ORE">ダイヤモンドの鉱石</option>
+  </select><br><br>
 
   <label for="oreScore">得点:</label>
   <input type="text" id="oreScore" name="oreScore"><br><br>
@@ -107,32 +116,31 @@
 
     // 鉱石の得点を更新する関数
     function updateOreScore() {
-        const oreType = document.getElementById('oreType').value;
+        const oreTypeSelect = document.getElementById('oreType');
+        const selectedOreType = oreTypeSelect.options[oreTypeSelect.selectedIndex].value; // 選択された鉱石名を取得
         const oreScore = document.getElementById('oreScore').value;
 
-    // リクエストデータを構築
-    const requestBody = {
-        oreType: oreType, // フォームから取得した鉱石の種類
-        score: oreScore // フォームから取得した得点
-    };
+        // リクエストデータを構築
+        const requestBody = {
+            oreType: selectedOreType, // 選択された鉱石名を使用
+            score: oreScore // フォームから取得した得点
+        };
 
-    // リクエストを送信
-    fetch('/updateOreScore', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestBody)
-    })
-    .then(response => response.json())
-    .then(data => {
-        // 鉱石の得点の更新の結果を表示する処理を追加
-        console.log('鉱石の得点が更新されました。', data);
-    })
-    .catch(error => console.error('エラー:', error));
+        // リクエストを送信
+        fetch('/updateOreScore', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        })
+        .then(response => response.json())
+        .then(data => {
+            // 鉱石の得点の更新の結果を表示する処理を追加
+            console.log('鉱石の得点が更新されました。', data);
+        })
+        .catch(error => console.error('エラー:', error));
     }
-
-
 </script>
 </body>
 </html>
