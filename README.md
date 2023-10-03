@@ -1,7 +1,6 @@
 # DigDigApp
 ## 概要
-DigDigAppはJava版[Minecraftプラグインの鉱石採掘ゲーム[(DigDig)](https://github.com/tai442/DigDig.git)のゲーム時間や鉱石点数を  
-カスタマイズするWebアプリケーションです。
+DigDigAppはJava版[Minecraftプラグインの鉱石採掘ゲーム[(DigDig)](https://github.com/tai442/DigDig.git)のゲーム時間や鉱石点数をカスタマイズするWebアプリケーションです。
 ## 機能
 http://digdig-alb-1749034478.ap-northeast-1.elb.amazonaws.com にアクセスすることで以下の機能を実行できます:
 1. 【ゲーム結果の取得】最新のゲーム結果が10件表示されます。
