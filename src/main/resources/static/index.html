@@ -50,15 +50,15 @@
 
 <script>
      // ゲーム時間を取得する関数
-    function getGameTime() {
-        fetch('/configList')
-            .then(response => response.json())
-            .then(data => {
-                // JSONデータを整形して表示
-                document.getElementById('gameTimeResult').textContent = JSON.stringify(data, null, 2);
-            })
-            .catch(error => console.error('エラー:', error));
-    }
+     function getGameTime() {
+         fetch('/configList')
+             .then(response => response.json())
+             .then(data => {
+                 // JSONデータを整形して表示
+                 document.getElementById('gameTimeResult').textContent = JSON.stringify(data, null, 2);
+             })
+             .catch(error => console.error('エラー:', error));
+     }
 
     // ゲーム結果を取得する関数
     function getPlayerScores() {
@@ -90,7 +90,13 @@
 
     // ゲーム時間を更新する関数
     function updateGameTime() {
-        const newGameTime = document.getElementById('newGameTime').value;
+    const newGameTime = document.getElementById('newGameTime').value;
+
+    // 新しいゲーム時間が1から100の範囲外の場合にエラーメッセージを表示
+    if (isNaN(newGameTime) || newGameTime < 1 || newGameTime > 100) {
+        alert('1から100の範囲でゲーム時間を入力してください。');
+        return; // エラー時に関数を終了
+    }
 
     // リクエストデータを構築
     const requestBody = {
@@ -108,38 +114,44 @@
     })
     .then(response => response.json())
     .then(data => {
-    // ゲーム時間の更新の結果を表示する処理を追加
-    console.log('ゲーム時間が更新されました。', data);
+        // ゲーム時間の更新の結果を表示する処理を追加
+        console.log('ゲーム時間が更新されました。', data);
     })
     .catch(error => console.error('エラー:', error));
     }
 
     // 鉱石の得点を更新する関数
     function updateOreScore() {
-        const oreTypeSelect = document.getElementById('oreType');
-        const selectedOreType = oreTypeSelect.options[oreTypeSelect.selectedIndex].value; // 選択された鉱石名を取得
-        const oreScore = document.getElementById('oreScore').value;
+    const oreTypeSelect = document.getElementById('oreType');
+    const selectedOreType = oreTypeSelect.options[oreTypeSelect.selectedIndex].value; // 選択された鉱石名を取得
+    const oreScore = document.getElementById('oreScore').value;
 
-        // リクエストデータを構築
-        const requestBody = {
-            oreType: selectedOreType, // 選択された鉱石名を使用
-            score: oreScore // フォームから取得した得点
-        };
+    // 新しい鉱石の得点が1から100の範囲外の場合にエラーメッセージを表示
+    if (isNaN(oreScore) || oreScore < 1 || oreScore > 100) {
+        alert('1から100の範囲で鉱石の得点を入力してください。');
+        return; // エラー時に関数を終了
+    }
 
-        // リクエストを送信
-        fetch('/updateOreScore', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
-        })
-        .then(response => response.json())
-        .then(data => {
-            // 鉱石の得点の更新の結果を表示する処理を追加
-            console.log('鉱石の得点が更新されました。', data);
-        })
-        .catch(error => console.error('エラー:', error));
+    // リクエストデータを構築
+    const requestBody = {
+        oreType: selectedOreType, // 選択された鉱石名を使用
+        score: oreScore // フォームから取得した得点
+    };
+
+    // リクエストを送信
+    fetch('/updateOreScore', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // 鉱石の得点の更新の結果を表示する処理を追加
+        console.log('鉱石の得点が更新されました。', data);
+    })
+    .catch(error => console.error('エラー:', error));
     }
 </script>
 </body>
